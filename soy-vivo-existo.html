@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>soy · vivo · existo · @sebastiangrimaldos</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Georgia, serif;
+      background: #0e0e0e;
+      color: #e8e8e8;
+      min-height: 100vh;
+    }
+
+    /* PAGES */
+    .page { display: none; padding: 4rem 2rem; min-height: 100vh; }
+    .page.active { display: block; }
+
+    .container { max-width: 680px; margin: 0 auto; }
+    .container-wide { max-width: 1300px; margin: 0 auto; }
+
+    /* NAV */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 3rem;
+    }
+    .nav-back {
+      font-size: 11px;
+      color: #333;
+      cursor: pointer;
+      letter-spacing: 1px;
+      background: none;
+      border: none;
+      font-family: Georgia, serif;
+      padding: 0;
+    }
+    .nav-back:hover { color: #666; }
+    .nav-num { font-size: 11px; color: #222; letter-spacing: 1px; }
+
+    /* INDEX */
+    .deco { text-align: center; font-size: 13px; color: #444; letter-spacing: 3px; margin-bottom: 3rem; }
+    .poema { text-align: center; margin-bottom: 3.5rem; }
+    .poema p { font-size: 17px; color: #ddd; line-height: 1.9; font-style: italic; }
+    .poema .ego { color: #888; margin-top: 1rem; }
+    .soy-vivo { text-align: center; font-size: 13px; color: #555; letter-spacing: 6px; margin-bottom: 4rem; }
+
+    .piezas { display: flex; flex-direction: column; }
+    .pieza {
+      display: flex;
+      border-top: 0.5px solid #1a1a1a;
+      padding: 2rem 0;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .pieza:last-child { border-bottom: 0.5px solid #1a1a1a; }
+    .pieza:hover { background: #111; padding-left: 12px; padding-right: 12px; margin-left: -12px; margin-right: -12px; border-radius: 4px; }
+    .pieza-num { font-size: 11px; color: #333; min-width: 28px; padding-top: 3px; letter-spacing: 1px; }
+    .pieza-contenido { flex: 1; }
+    .pieza-titulo { font-size: 15px; color: #ddd; display: block; margin-bottom: 6px; }
+    .pieza-pregunta { font-size: 12px; color: #555; font-style: italic; display: block; line-height: 1.6; }
+    .pieza-flecha { font-size: 11px; color: #222; padding-top: 3px; padding-left: 12px; }
+    .pieza:hover .pieza-titulo { color: #fff; }
+    .pieza:hover .pieza-pregunta { color: #666; }
+    .pieza:hover .pieza-flecha { color: #555; }
+
+    /* FIRMA */
+    .firma { text-align: center; margin-top: 3.5rem; font-size: 11.5px; color: #333; letter-spacing: 1px; }
+
+    /* POEMA PAGE */
+    .poema-page { text-align: center; }
+    .poema-page p { font-size: 19px; color: #e8e8e8; line-height: 1.85; font-style: normal; }
+    .poema-page .p-ego { font-style: italic; color: #aaa; margin-top: 2rem; font-size: 19px; }
+    .poema-divider { border: none; border-top: 0.5px solid #2a2a2a; width: 200px; margin: 2.2rem auto; }
+    .poema-soy { text-align: center; font-size: 13.5px; color: #666; letter-spacing: 8px; }
+    .poema-firma-sm { text-align: center; margin-top: 2rem; font-size: 11px; color: #444; letter-spacing: 1px; }
+
+    /* TABLES */
+    .tabla-intro { font-size: 11px; color: #555; font-style: italic; line-height: 1.8; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 0.5px solid #1e1e1e; }
+    .tabla-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+    th { padding: 10px 10px; font-size: 9.5px; letter-spacing: 1.2px; text-transform: uppercase; color: #555; border-bottom: 0.5px solid #2a2a2a; text-align: left; font-weight: normal; vertical-align: bottom; line-height: 1.5; }
+    td { padding: 14px 10px; vertical-align: top; border-bottom: 0.5px solid #1a1a1a; line-height: 1.7; color: #bbb; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #141414; }
+    .abba-row td { background: #131313; }
+
+    /* TABLE 2 cols */
+    .t2 .c1 { width: 30%; } .t2 .c2 { width: 70%; }
+
+    /* TABLE 3 cols */
+    .t3 .c1 { width: 18%; } .t3 .c2 { width: 82%; }
+
+    /* TABLE 4 cols */
+    .t4 .c1 { width: 36%; } .t4 .c2 { width: 14%; } .t4 .c3 { width: 50%; }
+
+    /* TABLE 5 cols */
+    .t5 .c1 { width: 13%; } .t5 .c2 { width: 15%; } .t5 .c3 { width: 12%; } .t5 .c4 { width: 20%; } .t5 .c5 { width: 40%; }
+
+    .aram-texto { font-size: 15px; color: #e8e8e8; direction: rtl; display: block; margin-bottom: 4px; line-height: 1.5; }
+    .aram-fonetic { font-size: 11px; color: #666; font-style: italic; display: block; }
+    .lit-texto { font-size: 12px; color: #ccc; display: block; line-height: 1.6; }
+    .trad-texto { font-size: 13px; color: #ddd; font-style: italic; display: block; line-height: 1.6; }
+    .badge-ms { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 9.5px; background: #1a1a1a; color: #555; border: 0.5px solid #2a2a2a; margin-bottom: 5px; }
+    .ms-griego { font-size: 12px; color: #ddd; font-style: italic; display: block; margin: 4px 0; line-height: 1.5; }
+    .ms-lit { font-size: 11px; color: #666; display: block; margin-bottom: 3px; }
+    .ms-cita { font-size: 10px; color: #444; display: block; font-style: italic; }
+    .razon-texto { font-size: 11.5px; color: #777; line-height: 1.75; display: block; }
+    .fuente-inline { font-size: 10px; color: #444; font-style: italic; display: block; margin-top: 7px; padding-top: 7px; border-top: 0.5px solid #1e1e1e; line-height: 1.6; }
+    .sep { border: none; border-top: 0.5px solid #1e1e1e; margin: 8px 0; }
+    .concepto-row { margin-bottom: 12px; }
+    .concepto-row:last-child { margin-bottom: 0; }
+    .dot { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #2a2a2a; margin-right: 8px; vertical-align: middle; position: relative; top: -1px; }
+    .concepto-nombre { font-size: 13px; color: #ddd; }
+    .concepto-def { font-size: 12px; color: #666; margin-top: 2px; padding-left: 13px; line-height: 1.55; }
+    .framework { display: block; font-size: 10.5px; color: #444; font-style: italic; margin-top: 2px; padding-left: 13px; }
+
+    .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 12px; }
+    .b-soy { background: #26215C; color: #CECBF6; }
+    .b-vivo { background: #04342C; color: #9FE1CB; }
+    .b-existo { background: #4A1B0C; color: #F5C4B3; }
+
+    .col-poema { font-style: italic; font-size: 13px; color: #888; }
+    .col-concepto { font-size: 13px; }
+    .col-framework { font-size: 11px; color: #444; font-style: italic; margin-top: 3px; }
+    .concepto-nombre-bold { font-size: 13.5px; color: #ddd; }
+
+    .fuente-bloque { font-size: 10.5px; color: #444; margin-top: 2rem; padding-top: 1rem; border-top: 0.5px solid #1e1e1e; font-style: italic; line-height: 1.9; }
+
+    /* AUDIO */
+    .audio-bloque { margin-top: 3rem; padding-top: 2rem; border-top: 0.5px solid #1e1e1e; text-align: center; max-width: 500px; margin-left: auto; margin-right: auto; }
+    .audio-label { font-size: 11px; color: #444; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 1rem; }
+    audio { width: 100%; opacity: 0.5; filter: invert(1); }
+    audio:hover { opacity: 0.85; }
+    .audio-nota { font-size: 11px; color: #333; font-style: italic; margin-top: 0.8rem; display: block; }
+
+    /* TRANSLATE HINT */
+    .translate-hint { text-align: center; font-size: 11px; color: #333; font-style: italic; padding: 1rem 0 0; }
+  </style>
+</head>
+<body>
+
+<!-- ==================== INDEX ==================== -->
+<div id="page-index" class="page active">
+  <div class="container">
+    <div class="deco">— —</div>
+    <div class="poema">
+      <p>if you see life as an amusement park</p>
+      <p>you are given a ticket you have to use</p>
+      <p>all the time, for this experience —</p>
+      <p>but don't think you are the ticket.</p>
+      <p>you need it, but it's not you.</p>
+      <p class="ego">the so-called ego — is the I</p>
+    </div>
+    <div class="soy-vivo">soy · vivo · existo</div>
+    <div class="piezas">
+      <div class="pieza" onclick="goTo('page-01')">
+        <span class="pieza-num">01</span>
+        <div class="pieza-contenido">
+          <span class="pieza-titulo">el poema</span>
+          <span class="pieza-pregunta">¿qué significa no confundirse con el ticket?<br>¿y qué tiene que ver el ego con el "yo soy"?</span>
+        </div>
+        <span class="pieza-flecha">→</span>
+      </div>
+      <div class="pieza" onclick="goTo('page-02')">
+        <span class="pieza-num">02</span>
+        <div class="pieza-contenido">
+          <span class="pieza-titulo">el poema y sus filosofías</span>
+          <span class="pieza-pregunta">¿a qué tradición filosófica apela cada línea?<br>¿dónde viven el Vedanta, Heidegger y el Éxodo en este poema?</span>
+        </div>
+        <span class="pieza-flecha">→</span>
+      </div>
+      <div class="pieza" onclick="goTo('page-03')">
+        <span class="pieza-num">03</span>
+        <div class="pieza-contenido">
+          <span class="pieza-titulo">soy · vivo · existo</span>
+          <span class="pieza-pregunta">¿qué significa cada una de estas tres palabras<br>en las grandes tradiciones del pensamiento humano?</span>
+        </div>
+        <span class="pieza-flecha">→</span>
+      </div>
+      <div class="pieza" onclick="goTo('page-04')">
+        <span class="pieza-num">04</span>
+        <div class="pieza-contenido">
+          <span class="pieza-titulo">jesús y el ser</span>
+          <span class="pieza-pregunta">¿qué dijo Jesús en su idioma original<br>sobre el soy, el vivo y el existo?</span>
+        </div>
+        <span class="pieza-flecha">→</span>
+      </div>
+      <div class="pieza" onclick="goTo('page-05')">
+        <span class="pieza-num">05</span>
+        <div class="pieza-contenido">
+          <span class="pieza-titulo">el padre nuestro en arameo</span>
+          <span class="pieza-pregunta">¿qué dijo Jesús exactamente, en su lengua,<br>antes de que dos mil años de liturgia lo tradujeran?</span>
+        </div>
+        <span class="pieza-flecha">→</span>
+      </div>
+    </div>
+    <div class="firma">@sebastiangrimaldos</div>
+    <div class="translate-hint">para traducir al inglés — click en el ícono de traducción en la barra del navegador</div>
+  </div>
+</div>
+
+<!-- ==================== 01 POEMA ==================== -->
+<div id="page-01" class="page">
+  <div class="container">
+    <div class="nav">
+      <button class="nav-back" onclick="goTo('page-index')">← volver</button>
+      <span class="nav-num">01 / 05</span>
+    </div>
+    <div class="poema-page">
+      <p>if you see life as an amusement park</p>
+      <p>you are given a ticket you have to use</p>
+      <p>all the time, for this experience —</p>
+      <p>but don't think you are the ticket.</p>
+      <p>you need it, but it's not you.</p>
+      <p class="p-ego">the so-called ego — is the I</p>
+      <hr class="poema-divider">
+      <div class="poema-soy">soy · vivo · existo</div>
+      <div class="poema-firma-sm">@sebastiangrimaldos</div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 02 POEMA + FILOSOFÍAS ==================== -->
+<div id="page-02" class="page">
+  <div class="container-wide">
+    <div class="nav">
+      <button class="nav-back" onclick="goTo('page-index')">← volver</button>
+      <span class="nav-num">02 / 05</span>
+    </div>
+    <div class="tabla-wrap">
+    <table class="t4" style="min-width:700px;">
+      <thead>
+        <tr>
+          <th class="c1">línea del poema</th>
+          <th class="c2">dimensión</th>
+          <th class="c3">concepto filosófico / espiritual</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="col-poema">if you see life as an amusement park</td>
+          <td style="text-align:center;"><span class="badge b-existo">existo</span></td>
+          <td><span class="concepto-nombre-bold">Lila — el juego divino</span><div class="col-framework">(Vedanta / hinduismo)</div></td>
+        </tr>
+        <tr>
+          <td class="col-poema">you are given a ticket you have to use</td>
+          <td style="text-align:center;"><span class="badge b-existo">existo</span></td>
+          <td><span class="concepto-nombre-bold">Geworfenheit — la condición de arrojado</span><div class="col-framework">(Heidegger / existencialismo)</div></td>
+        </tr>
+        <tr>
+          <td class="col-poema">all the time, for this experience</td>
+          <td style="text-align:center;"><span class="badge b-vivo">vivo</span></td>
+          <td><span class="concepto-nombre-bold">Élan vital — el impulso vital continuo</span><div class="col-framework">(Bergson / filosofía de la vida)</div></td>
+        </tr>
+        <tr>
+          <td class="col-poema">but don't think you are the ticket</td>
+          <td style="text-align:center;"><span class="badge b-soy">soy</span></td>
+          <td><span class="concepto-nombre-bold">Neti neti — "no esto, no esto"</span><div class="col-framework">(Shankaracharya / Advaita Vedanta)</div></td>
+        </tr>
+        <tr>
+          <td class="col-poema">you need it, but it's not you</td>
+          <td style="text-align:center;"><span class="badge b-soy">soy</span></td>
+          <td><span class="concepto-nombre-bold">Atman ≠ Ahamkara — ser vs. ego-hacedor</span><div class="col-framework">(Upanishads / hinduismo)</div></td>
+        </tr>
+        <tr>
+          <td class="col-poema">the so-called ego — is the I</td>
+          <td style="text-align:center;"><span class="badge b-soy">soy</span></td>
+          <td><span class="concepto-nombre-bold">Yo soy el que soy — el ser sin atributos</span><div class="col-framework">(Éxodo 3:14 / mística judeocristiana)</div></td>
+        </tr>
+        <tr>
+          <td class="col-poema" style="letter-spacing:3px;">· · ·<br><span style="letter-spacing:4px; font-size:12px;">soy · vivo · existo</span></td>
+          <td style="text-align:center;">
+            <span class="badge b-soy" style="display:block;margin-bottom:4px;">soy</span>
+            <span class="badge b-vivo" style="display:block;margin-bottom:4px;">vivo</span>
+            <span class="badge b-existo" style="display:block;">existo</span>
+          </td>
+          <td>
+            <span class="concepto-nombre-bold">Sat · Chit · Ananda — ser · conciencia · dicha</span>
+            <div class="col-framework">(Vedanta / trinidad ontológica del Absoluto)</div>
+            <div style="margin-top:8px;"><span class="concepto-nombre-bold">Parménides · Heráclito · Heidegger</span><div class="col-framework">(ser estático · devenir · ser-en-el-mundo)</div></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="firma" style="margin-top:2rem;">@sebastiangrimaldos</div>
+  </div>
+</div>
+
+<!-- ==================== 03 SOY VIVO EXISTO ==================== -->
+<div id="page-03" class="page">
+  <div class="container-wide">
+    <div class="nav">
+      <button class="nav-back" onclick="goTo('page-index')">← volver</button>
+      <span class="nav-num">03 / 05</span>
+    </div>
+    <div class="tabla-wrap">
+    <table class="t3" style="min-width:700px;">
+      <thead>
+        <tr>
+          <th class="c1">dimensión</th>
+          <th class="c2">conceptos relacionados · framework</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge b-soy">soy</span></td>
+          <td>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Turiya</span><div class="concepto-def">el cuarto estado — fondo permanente de conciencia que sostiene todo sin ser tocado por nada</div><span class="framework">(Mandukya Upanishad / Vedanta)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Esse — el acto puro de ser</span><div class="concepto-def">ser sin atributos, anterior a la esencia y a la existencia</div><span class="framework">(Santo Tomás de Aquino / escolástica latina)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Sat — ser puro</span><div class="concepto-def">primera dimensión de la trinidad del Absoluto: lo que es, eterno e inmutable</div><span class="framework">(Advaita Vedanta / hinduismo)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Atman — el ser real</span><div class="concepto-def">el sí mismo verdadero, idéntico al Absoluto, que no nace ni muere</div><span class="framework">(Upanishads / hinduismo)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Yo soy el que soy — Ehyeh Asher Ehyeh</span><div class="concepto-def">el ser sin condición, sin nombre, sin historia — el nombre de Dios a Moisés</div><span class="framework">(Éxodo 3:14 / mística judeocristiana)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">To On — el Ser</span><div class="concepto-def">el Ser como único y eterno, sin devenir ni cambio posible</div><span class="framework">(Parménides / filosofía griega presocrática)</span></div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge b-vivo">vivo</span></td>
+          <td>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Élan vital — impulso vital</span><div class="concepto-def">fuerza creadora que atraviesa toda vida, irreducible a materia o lógica</div><span class="framework">(Henri Bergson / filosofía de la vida)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Panta rhei — todo fluye</span><div class="concepto-def">la realidad no es cosa sino proceso, movimiento permanente sin reposo</div><span class="framework">(Heráclito / filosofía griega presocrática)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Chit — conciencia pura</span><div class="concepto-def">segunda dimensión del Absoluto: la conciencia que percibe y vive el ser</div><span class="framework">(Advaita Vedanta / hinduismo)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Energeia — ser en acto</span><div class="concepto-def">la realidad no como potencia sino como ejercicio vivo y continuo del ser</div><span class="framework">(Aristóteles / filosofía griega clásica)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Tao — el camino que fluye</span><div class="concepto-def">principio vivo que no puede nombrarse pero es la corriente de toda existencia</div><span class="framework">(Lao Tse / Taoísmo)</span></div>
+          </td>
+        </tr>
+        <tr>
+          <td><span class="badge b-existo">existo</span></td>
+          <td>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Dasein — ser-ahí</span><div class="concepto-def">el ser que existe arrojado al mundo, que tiene que vérselas con su propia existencia</div><span class="framework">(Heidegger / existencialismo alemán)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Ex-sistere — pararse fuera</span><div class="concepto-def">emerger hacia la manifestación, salir del ser puro hacia el mundo concreto</div><span class="framework">(latín clásico / etimología filosófica)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Ananda — dicha manifestada</span><div class="concepto-def">tercera dimensión del Absoluto: el ser que se derrama y experimenta su propia existencia</div><span class="framework">(Advaita Vedanta / hinduismo)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Tzimtzum — la contracción creadora</span><div class="concepto-def">el Absoluto se contrae para que el mundo pueda existir — el acto de hacer espacio al otro</div><span class="framework">(Isaac Luria / Kabbalah judía)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Lila — el juego divino</span><div class="concepto-def">la existencia como representación que el Absoluto hace de sí mismo para experimentarse</div><span class="framework">(Vedanta / hinduismo)</span></div>
+            <div class="concepto-row"><span class="dot"></span><span class="concepto-nombre">Geworfenheit — la condición de arrojado</span><div class="concepto-def">existir es ya encontrarse en un mundo que no elegiste, con un ticket que ya tenías</div><span class="framework">(Heidegger / existencialismo alemán)</span></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="firma" style="margin-top:2rem;">@sebastiangrimaldos</div>
+  </div>
+</div>
+
+<!-- ==================== 04 JESÚS ==================== -->
+<div id="page-04" class="page">
+  <div class="container-wide">
+    <div class="nav">
+      <button class="nav-back" onclick="goTo('page-index')">← volver</button>
+      <span class="nav-num">04 / 05</span>
+    </div>
+    <div class="tabla-wrap">
+    <table style="min-width:800px; table-layout:fixed;">
+      <colgroup><col style="width:10%"><col style="width:28%"><col style="width:22%"><col style="width:40%"></colgroup>
+      <thead>
+        <tr>
+          <th>dimensión</th>
+          <th>texto — idioma original</th>
+          <th>referencia · autor · fecha</th>
+          <th>traducción literal al español · nota</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge b-soy">soy</span></td>
+          <td>
+            <div class="aram-texto" style="font-size:13px; direction:ltr;">Ἐγώ εἰμι πρὶν Ἀβραὰμ γενέσθαι</div>
+            <span class="aram-fonetic">Griego koiné — Juan 8:58</span>
+          </td>
+          <td><span class="concepto-nombre-bold">Evangelio de Juan</span><div class="ms-lit">Aprox. 90–110 d.C. El más teológico de los cuatro evangelios — el único que usa Ἐγώ εἰμι como fórmula ontológica repetida.</div></td>
+          <td><span class="trad-texto">"Antes de que Abraham existiera, yo soy."</span><div class="ms-lit" style="margin-top:5px;">El presente εἰμι cuando debería ser pasado es deliberado — Jesús afirma un ser fuera del tiempo. Los oyentes lo entendieron como blasfemia y tomaron piedras.</div></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-soy">soy</span></td>
+          <td>
+            <div class="aram-texto" style="font-size:13px; direction:ltr;">Ἐγώ εἰμι ἡ ὁδὸς καὶ ἡ ἀλήθεια καὶ ἡ ζωή</div>
+            <span class="aram-fonetic">Griego koiné — Juan 14:6</span>
+          </td>
+          <td><span class="concepto-nombre-bold">Juan 14:6</span><div class="ms-lit">Noche antes de su arresto. Tomás pregunta cómo llegar adonde Jesús va.</div></td>
+          <td><span class="trad-texto">"Yo soy el camino, y la verdad, y la vida."</span><div class="ms-lit" style="margin-top:5px;">ζωή (zōē) es vida plena y eterna — distinta de βίος (bíos), vida biológica. Jesús no describe lo que hace — describe lo que es.</div></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-vivo">vivo</span></td>
+          <td>
+            <div class="aram-texto" style="font-size:13px; direction:ltr;">Ἐγώ εἰμι ἡ ἀνάστασις καὶ ἡ ζωή</div>
+            <span class="aram-fonetic">Griego koiné — Juan 11:25</span>
+          </td>
+          <td><span class="concepto-nombre-bold">Juan 11:25</span><div class="ms-lit">Antes de resucitar a Lázaro. Jesús responde a Marta, quien cree que su hermano resucitará "en el último día".</div></td>
+          <td><span class="trad-texto">"Yo soy la resurrección y la vida."</span><div class="ms-lit" style="margin-top:5px;">ἀνάστασις significa "levantarse de nuevo" — no un evento futuro sino una cualidad presente del ser. Vivo como condición ontológica activa.</div></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-vivo">vivo</span></td>
+          <td>
+            <div class="aram-texto" style="font-size:15px;">ܐܢܐ ܐܢܐ ܠܚܡܐ ܕܚܝܐ</div>
+            <span class="aram-fonetic">Arameo siríaco — Juan 6:35 (Peshitta)</span>
+          </td>
+          <td><span class="concepto-nombre-bold">Peshitta · s. II d.C.</span><div class="ms-lit">La Biblia en arameo siríaco — lengua más cercana al arameo que habló Jesús.</div></td>
+          <td><span class="trad-texto">"Yo soy el pan de la vida."</span><div class="ms-lit" style="margin-top:5px;">ܚܝܐ (ḥayyē) en arameo es "vida" pero también "los vivientes" — dimensión colectiva y dinámica que el griego ζωή no captura igual.</div></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-existo">existo</span></td>
+          <td>
+            <div class="aram-texto" style="font-size:13px; direction:ltr;">Ἐγώ εἰμι τὸ φῶς τοῦ κόσμου</div>
+            <span class="aram-fonetic">Griego koiné — Juan 8:12</span>
+          </td>
+          <td><span class="concepto-nombre-bold">Juan 8:12</span><div class="ms-lit">Dicho en el Templo durante la fiesta de los Tabernáculos.</div></td>
+          <td><span class="trad-texto">"Yo soy la luz del mundo."</span><div class="ms-lit" style="margin-top:5px;">κόσμος es el orden visible, la totalidad de lo manifestado. La luz no existe para sí — existe para revelar todo lo demás. Existir como acto de iluminación.</div></td>
+        </tr>
+        <tr>
+          <td><span class="badge b-existo">existo</span></td>
+          <td>
+            <div class="aram-texto" style="font-size:15px;">ܐܢܐ ܐܢܐ ܬܪܥܐ</div>
+            <span class="aram-fonetic">Arameo siríaco — Juan 10:9 (Peshitta)</span>
+          </td>
+          <td><span class="concepto-nombre-bold">Peshitta · s. II d.C.</span><div class="ms-lit">Juan 10:9. Discurso del buen pastor.</div></td>
+          <td><span class="trad-texto">"Yo soy la puerta."</span><div class="ms-lit" style="margin-top:5px;">ܬܪܥܐ (tar'ā) — umbral, punto de paso. La puerta no es el destino — es lo que permite que otros emerjan de un estado hacia otro. Existir como posibilidad de paso.</div></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="firma" style="margin-top:2rem;">@sebastiangrimaldos</div>
+  </div>
+</div>
+
+<!-- ==================== 05 PADRE NUESTRO ==================== -->
+<div id="page-05" class="page">
+  <div class="container-wide">
+    <div class="nav">
+      <button class="nav-back" onclick="goTo('page-index')">← volver</button>
+      <span class="nav-num">05 / 05</span>
+    </div>
+    <div class="tabla-intro">
+      5 columnas: pronunciación aramea de Jesús · traducción literal del arameo · traducción más cercana al espíritu original · manuscrito más antiguo conservado · y por qué esta versión — no la tradicional. Fuente aramea: Jeremias (1966), Chilton (2000), Peshitta. Manuscritos: Codex Sinaiticus y Vaticanus, s. IV d.C.
+    </div>
+    <div class="tabla-wrap">
+    <table class="t5" style="min-width:1000px;">
+      <thead>
+        <tr>
+          <th class="c1">como lo pronunció Jesús<br><span style="font-style:italic;text-transform:none;letter-spacing:0;font-size:9px;">arameo galileo reconstruido</span></th>
+          <th class="c2">traducción literal<br><span style="font-style:italic;text-transform:none;letter-spacing:0;font-size:9px;">palabra por palabra</span></th>
+          <th class="c3">lo más cercano<br>al espíritu original</th>
+          <th class="c4">manuscrito más antiguo<br><span style="font-style:italic;text-transform:none;letter-spacing:0;font-size:9px;">texto griego · traducción · versículo</span></th>
+          <th class="c5">por qué esta versión — y no la tradicional</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="abba-row">
+          <td><span class="aram-texto">אַבָּא</span><span class="aram-fonetic">Abba</span></td>
+          <td><span class="lit-texto">Papá / Papi — forma íntima de "padre"</span></td>
+          <td><span class="trad-texto">Papi —</span></td>
+          <td>
+            <span class="badge-ms">Codex Sinaiticus · s. IV d.C.</span>
+            <span class="ms-griego">Πάτερ ἡμῶν ὁ ἐν τοῖς οὐρανοῖς</span>
+            <span class="ms-lit">"Padre nuestro el que está en los cielos"</span>
+            <span class="ms-cita">Mateo 6:9 · British Library</span>
+            <hr class="sep">
+            <span class="badge-ms">Papiro 75 · 175–225 d.C.</span>
+            <span class="ms-griego">Πάτερ</span>
+            <span class="ms-lit">"Padre" — solo esto</span>
+            <span class="ms-cita">Lucas 11:2 · Biblioteca Vaticana</span>
+          </td>
+          <td><span class="razon-texto">Abba no es una reconstrucción especulativa — los propios autores del NT la preservaron en arameo dentro del griego porque era tan característica de Jesús que no quisieron traducirla. Aparece tres veces: Marcos 14:36 — Jesús en Getsemaní; Romanos 8:15 y Gálatas 4:6 — Pablo la cita como la palabra heredada directamente de Jesús. Ningún judío del s. I usaba esta palabra para dirigirse a Dios en oración pública. Jeremias en <em>Abba</em> (1966) analizó su intimidad — no la inventó.</span><span class="fuente-inline">Marcos 14:36 · Romanos 8:15 · Gálatas 4:6 · Jeremias, <em>Abba</em> (1966)</span></td>
+        </tr>
+        <tr>
+          <td><span class="aram-texto">יִתְקַדַּשׁ שְׁמָךְ</span><span class="aram-fonetic">Yithqaddash shmakh</span></td>
+          <td><span class="lit-texto">Que sea puesto aparte tu nombre</span></td>
+          <td><span class="trad-texto">que todos reconozcan que eres sagrado —</span></td>
+          <td><span class="badge-ms">Codex Sinaiticus · s. IV d.C.</span><span class="ms-griego">Ἁγιασθήτω τὸ ὄνομά σου</span><span class="ms-lit">"Que sea santificado tu nombre"</span><span class="ms-cita">Mateo 6:9 · British Library</span></td>
+          <td><span class="razon-texto">Yithqaddash viene de qadash — separar, reconocer como sagrado. En el mundo semítico el nombre era la esencia misma de la persona. Santificar el nombre de Dios es actuar de manera que su presencia se vuelva visible en el mundo. La primera línea del Kaddish judío dice casi exactamente lo mismo: <em>Yitgaddal veyitkaddash shemeh rabba</em>. David De Sola Pool llamó al Padre Nuestro la "hermana gemela" del Kaddish.</span><span class="fuente-inline">Jeremias, <em>The Prayers of Jesus</em> (1967) · De Sola Pool, <em>The Kaddish</em> (1909)</span></td>
+        </tr>
+        <tr>
+          <td><span class="aram-texto">תֵּיתֵי מַלְכוּתָךְ</span><span class="aram-fonetic">Tethe malkuthakh</span></td>
+          <td><span class="lit-texto">Que llegue / que venga tu reinado</span></td>
+          <td><span class="trad-texto">que tu manera de gobernar llegue aquí —</span></td>
+          <td><span class="badge-ms">Codex Vaticanus · s. IV d.C.</span><span class="ms-griego">ἐλθέτω ἡ βασιλεία σου</span><span class="ms-lit">"Que llegue tu reinado"</span><span class="ms-cita">Mateo 6:10 · Biblioteca Vaticana</span></td>
+          <td><span class="razon-texto">Malkutha en arameo no designa territorio — designa el acto de reinar, la condición dinámica de gobierno. Jeremias señaló que para el oyente oriental malkutha casi nunca indicaba un reino en sentido espacial sino la autoridad del rey. C. H. Dodd argumentó que "reinado" o "soberanía" son más precisos que "reino". La Encyclopaedia Britannica define malkut como "la actividad del rey mismo" — no un lugar.</span><span class="fuente-inline">Jeremias, <em>New Testament Theology</em> (1971) · C. H. Dodd, <em>The Parables of the Kingdom</em> (1935)</span></td>
+        </tr>
+        <tr>
+          <td><span class="aram-texto">נֶהְוֵי צְבְיָנָךְ</span><span class="aram-fonetic">Nehvwey tzevyanakh aykana d'bashmaya aph b'ar'a</span></td>
+          <td><span class="lit-texto">Que se haga tu deseo, como en el cielo también en la tierra</span></td>
+          <td><span class="trad-texto">que lo que tú quieres ocurra aquí como ocurre allá —</span></td>
+          <td><span class="badge-ms">Codex Sinaiticus · s. IV d.C.</span><span class="ms-griego">γενηθήτω τὸ θέλημά σου</span><span class="ms-lit">"Que se haga tu voluntad"</span><span class="ms-cita">Mateo 6:10 · solo Mateo, ausente en Lucas</span></td>
+          <td><span class="razon-texto">Tzevyana en arameo es deseo íntimo — lo que place al corazón, no una orden impuesta. Esta línea está solo en Mateo — Lucas no la tiene. Los estudiosos de la fuente Q consideran que la versión de Lucas es generalmente más antigua. La ausencia en Lucas sugiere que Mateo la añadió para uso litúrgico comunitario.</span><span class="fuente-inline">Fitzmyer, <em>The Gospel According to Luke</em> (1985) · Kloppenborg, <em>Excavating Q</em> (2000)</span></td>
+        </tr>
+        <tr>
+          <td><span class="aram-texto">לַחְמָן דְּלִימְהַר</span><span class="aram-fonetic">Lahman delimhar hab lan yoma dhen</span></td>
+          <td><span class="lit-texto">El pan nuestro del mañana danos hoy</span></td>
+          <td><span class="trad-texto">el pan que necesitamos para mañana, dánoslo hoy —</span></td>
+          <td><span class="badge-ms">Codex Sinaiticus · s. IV d.C.</span><span class="ms-griego">τὸν ἄρτον ἡμῶν τὸν ἐπιούσιον</span><span class="ms-lit">"El pan nuestro el epiousios"</span><span class="ms-cita">Mateo 6:11 · British Library</span></td>
+          <td><span class="razon-texto">Delimhar en arameo puede ser "de mañana", "necesario", "para el día que viene". En griego se tradujo como epiousios — hapax legomenon absoluto: palabra que no aparece en ningún otro texto griego de la antigüedad. Orígenes en el s. III ya señaló que parecía una invención de los evangelistas. La traducción "de cada día" es interpretación de la Vulgata de Jerónimo (s. IV) — no una certeza filológica.</span><span class="fuente-inline">Orígenes, <em>De Oratione</em> (s. III) · Metzger, <em>Textual Commentary on the Greek NT</em> (1994)</span></td>
+        </tr>
+        <tr>
+          <td><span class="aram-texto">וּשְׁבוֹק לָן חוֹבֵינָן</span><span class="aram-fonetic">Ushbhoq lan hobhain kedhisch bhaqnan lhyyabhain</span></td>
+          <td><span class="lit-texto">Y suelta nuestras deudas, como nosotros hemos soltado a nuestros deudores</span></td>
+          <td><span class="trad-texto">suéltanos lo que te debemos, como nosotros ya soltamos a los que nos deben —</span></td>
+          <td>
+            <span class="badge-ms">Codex Sinaiticus · s. IV d.C.</span><span class="ms-griego">ἄφες ἡμῖν τὰ ὀφειλήματα</span><span class="ms-lit">"Suelta nuestras deudas"</span><span class="ms-cita">Mateo 6:12</span>
+            <hr class="sep">
+            <span class="badge-ms">Papiro 75 · 175–225 d.C.</span><span class="ms-griego">ἄφες ἡμῖν τὰς ἁμαρτίας</span><span class="ms-lit">"Suelta nuestros pecados"</span><span class="ms-cita">Lucas 11:4 · Biblioteca Vaticana</span>
+          </td>
+          <td><span class="razon-texto">Sebastian Brock señala que esta línea es una de las pruebas más sólidas del origen arameo: hobha significa simultáneamente deuda económica y pecado — ambigüedad que no existe ni en hebreo ni en griego. Mateo traduce "deudas" — fiel al arameo. Lucas cambia a "pecados" — interpretando para su audiencia griega. Ambos traducían desde un original donde los dos sentidos coexistían en una sola palabra.</span><span class="fuente-inline">Sebastian Brock, <em>The Hidden Pearl</em> (2001) · Jeremias, <em>The Prayers of Jesus</em> (1967)</span></td>
+        </tr>
+        <tr>
+          <td><span class="aram-texto">וְלָא תַעְלִינַן לְנִסְיוֹן</span><span class="aram-fonetic">Wela tha-elinnan le nisyon</span></td>
+          <td><span class="lit-texto">Y no nos introduzcas en la prueba</span></td>
+          <td><span class="trad-texto">y no nos abandones cuando la situación nos supere —</span></td>
+          <td><span class="badge-ms">Codex Vaticanus · s. IV d.C.</span><span class="ms-griego">μὴ εἰσενέγκῃς ἡμᾶς εἰς πειρασμόν</span><span class="ms-lit">"No nos introduzcas en la prueba"</span><span class="ms-cita">Mateo 6:13 · Biblioteca Vaticana</span></td>
+          <td><span class="razon-texto">Nisyon en arameo es prueba, situación límite — no tentación moral. La traducción "no nos dejes caer en tentación" contradice Santiago 1:13 ("Dios no tienta a nadie"). La petición tiene dos movimientos: primero, que esas situaciones no aparezcan en el camino; y si llegaran, que Dios no nos abandone en ellas. No es Dios como causa del peligro — es Dios como presencia o ausencia dentro de él. En 2017 Francisco propuso "no nos abandones en la tentación" — el Vaticano lo aprobó en 2019.</span><span class="fuente-inline">Santiago 1:13 · Papa Francisco, TV2000 (2017) · Conferencia Episcopal Italiana (2019)</span></td>
+        </tr>
+        <tr>
+          <td><span class="aram-texto">אֶלָּא פַּצָּן מִן בִּישָׁא</span><span class="aram-fonetic">Ela patzan min bisha</span></td>
+          <td><span class="lit-texto">Sino arráncanos del malo / del mal</span></td>
+          <td><span class="trad-texto">sino sácanos de lo que nos hace daño.</span></td>
+          <td><span class="badge-ms">Codex Sinaiticus · s. IV d.C.</span><span class="ms-griego">ῥῦσαι ἡμᾶς ἀπὸ τοῦ πονηροῦ</span><span class="ms-lit">"Líbranos del maligno"</span><span class="ms-cita">Mateo 6:13 · sin doxología</span></td>
+          <td><span class="razon-texto">Patzan en arameo es "arrancar con fuerza" — gesto urgente y físico. Bisha es ambiguo: el mal como fuerza o como ser. Esta línea es el segundo movimiento de la anterior: si nisyon pide que el peligro no llegue y que Dios no nos abandone, esta pide que si ya llegó, Dios nos saque. Juntas: que no aparezca, que no nos deje solos si aparece, que nos saque si ya ocurrió. La doxología final no aparece en Sinaiticus ni en Vaticanus — llegó desde la Didaché (c. 50–120 d.C.).</span><span class="fuente-inline">Metzger, <em>Textual Commentary</em> (1994) · Didaché 8:2 (c. 50–120 d.C.)</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="fuente-bloque">
+      Arameo: Jeremias (1966) · Chilton (2000) · Brock (2001) · Peshitta (s. II d.C.)<br>
+      Manuscritos: Codex Sinaiticus (s. IV d.C.) · Codex Vaticanus (s. IV d.C.) · Papiro 75 (175–225 d.C.) · Didaché (c. 50–120 d.C.)<br>
+      Abba en el NT griego: Marcos 14:36 · Romanos 8:15 · Gálatas 4:6
+    </div>
+    <div class="audio-bloque">
+      <span class="audio-label">el padre nuestro · arameo galileo reconstruido</span>
+      <audio controls>
+        <source src="arameo.mp3" type="audio/mpeg">
+      </audio>
+      <span class="audio-nota">voz: Ibrahim · ElevenLabs · abril 2026</span>
+    </div>
+    <div class="firma" style="margin-top:2rem;">@sebastiangrimaldos</div>
+  </div>
+</div>
+
+<script>
+  function goTo(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+</body>
+</html>
