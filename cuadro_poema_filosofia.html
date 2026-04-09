@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cuadro — Poema & Filosofía · @sebastiangrimaldos</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Georgia, serif;
+      background: #0e0e0e;
+      color: #e8e8e8;
+      padding: 3rem 2rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .header p {
+      font-style: italic;
+      font-size: 13px;
+      color: #555;
+      letter-spacing: 3px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13.5px;
+      table-layout: fixed;
+    }
+
+    th {
+      padding: 10px 14px;
+      font-family: Georgia, serif;
+      font-weight: normal;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: #555;
+      border-bottom: 0.5px solid #2a2a2a;
+      text-align: left;
+    }
+
+    td {
+      padding: 16px 14px;
+      vertical-align: top;
+      border-bottom: 0.5px solid #1e1e1e;
+      line-height: 1.7;
+      color: #ccc;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #141414; }
+
+    .col-poema  { width: 36%; font-style: italic; color: #888; font-size: 13px; }
+    .col-palabra { width: 14%; text-align: center; }
+    .col-concepto { width: 50%; font-size: 13px; }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      font-family: Georgia, serif;
+    }
+
+    .b-soy    { background: #26215C; color: #CECBF6; }
+    .b-vivo   { background: #04342C; color: #9FE1CB; }
+    .b-existo { background: #4A1B0C; color: #F5C4B3; }
+
+    .concepto-nombre {
+      font-weight: normal;
+      font-size: 13.5px;
+      color: #ddd;
+      display: block;
+    }
+
+    .framework {
+      font-size: 11px;
+      color: #555;
+      margin-top: 3px;
+      font-style: italic;
+    }
+
+    .badge-block {
+      display: block;
+      margin-bottom: 5px;
+      text-align: center;
+    }
+
+    .concepto-group { margin-top: 10px; }
+
+    .footer {
+      text-align: center;
+      margin-top: 2.5rem;
+      font-size: 11.5px;
+      color: #444;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <p>— —</p>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th class="col-poema">línea del poema</th>
+        <th class="col-palabra">dimensión</th>
+        <th class="col-concepto">concepto filosófico / espiritual</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td class="col-poema">if you see life as an amusement park</td>
+        <td class="col-palabra"><span class="badge b-existo">existo</span></td>
+        <td class="col-concepto">
+          <span class="concepto-nombre">Lila — el juego divino</span>
+          <div class="framework">(Vedanta / hinduismo)</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-poema">you are given a ticket you have to use</td>
+        <td class="col-palabra"><span class="badge b-existo">existo</span></td>
+        <td class="col-concepto">
+          <span class="concepto-nombre">Geworfenheit — la condición de arrojado</span>
+          <div class="framework">(Heidegger / existencialismo)</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-poema">all the time, for this experience</td>
+        <td class="col-palabra"><span class="badge b-vivo">vivo</span></td>
+        <td class="col-concepto">
+          <span class="concepto-nombre">Élan vital — el impulso vital continuo</span>
+          <div class="framework">(Bergson / filosofía de la vida)</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-poema">but don't think you are the ticket</td>
+        <td class="col-palabra"><span class="badge b-soy">soy</span></td>
+        <td class="col-concepto">
+          <span class="concepto-nombre">Neti neti — "no esto, no esto"</span>
+          <div class="framework">(Shankaracharya / Advaita Vedanta)</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-poema">you need it, but it's not you</td>
+        <td class="col-palabra"><span class="badge b-soy">soy</span></td>
+        <td class="col-concepto">
+          <span class="concepto-nombre">Atman ≠ Ahamkara — ser vs. ego-hacedor</span>
+          <div class="framework">(Upanishads / hinduismo)</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-poema">the so-called ego — is the I</td>
+        <td class="col-palabra"><span class="badge b-soy">soy</span></td>
+        <td class="col-concepto">
+          <span class="concepto-nombre">Yo soy el que soy — el ser sin atributos</span>
+          <div class="framework">(Éxodo 3:14 / mística judeocristiana)</div>
+        </td>
+      </tr>
+
+      <tr>
+        <td class="col-poema" style="color:#777; letter-spacing:2px;">· · ·<br><span style="letter-spacing:4px; font-size:12px;">soy · vivo · existo</span></td>
+        <td class="col-palabra">
+          <span class="badge b-soy badge-block">soy</span>
+          <span class="badge b-vivo badge-block">vivo</span>
+          <span class="badge b-existo badge-block">existo</span>
+        </td>
+        <td class="col-concepto">
+          <span class="concepto-nombre">Sat · Chit · Ananda — ser · conciencia · dicha</span>
+          <div class="framework">(Vedanta / trinidad ontológica del Absoluto)</div>
+          <div class="concepto-group">
+            <span class="concepto-nombre">Parménides · Heráclito · Heidegger</span>
+            <div class="framework">(ser estático · devenir · ser-en-el-mundo)</div>
+          </div>
+        </td>
+      </tr>
+
+    </tbody>
+  </table>
+
+  <div class="footer">@sebastiangrimaldos</div>
+
+</div>
+</body>
+</html>
